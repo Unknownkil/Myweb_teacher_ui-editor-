@@ -47,15 +47,12 @@
     <div class="container">
         <h1>Modify HTML Layout</h1>
         <input type="file" id="fileInput" />
-        <button class="button" onclick="processFile()">Modify File</button>
-        <pre id="output" class="hidden"></pre>
+        <button class="button" onclick="processFile()">Modify and Download</button>
     </div>
 
     <script>
         function processFile() {
             const fileInput = document.getElementById('fileInput');
-            const output = document.getElementById('output');
-            output.classList.add('hidden'); // Hide output initially
 
             if (fileInput.files.length === 0) {
                 alert("Please upload an HTML file.");
@@ -73,13 +70,21 @@
                 htmlContent = htmlContent.replace(/(Stream Online<\/h3>[\s\S]*?<\/button>)/, '<div class="stream-section">$1</div>');
                 htmlContent = htmlContent.replace(/(View PDF<\/h3>[\s\S]*?<\/button>)/, '<div class="pdf-section">$1</div>');
 
-                // Display the modified HTML
-                output.textContent = htmlContent;
-                output.classList.remove('hidden');
+                // Download the modified HTML
+                downloadModifiedFile(htmlContent, file.name);
             };
 
             reader.readAsText(file);
         }
+
+        function downloadModifiedFile(content, fileName) {
+            const blob = new Blob([content], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName; // Keep the original file name
+            link.click();
+            URL.revokeObjectURL(link.href); // Clean up after download
+        }
     </script>
 </body>
-  </html>
+</html>
