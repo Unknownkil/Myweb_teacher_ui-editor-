@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Layout Modifier</title>
+    <title>Modify HTML Layout</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,6 +41,17 @@
         .hidden {
             display: none;
         }
+
+        .section {
+            background-color: #e3e3e3;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .section h3 {
+            color: #448EE4;
+        }
     </style>
 </head>
 <body>
@@ -65,10 +76,27 @@
             reader.onload = function(e) {
                 let htmlContent = e.target.result;
 
-                // Modify HTML by moving buttons to their respective sections
-                htmlContent = htmlContent.replace(/(Download Content<\/h3>[\s\S]*?<\/button>)/, '<div class="download-section">$1</div>');
-                htmlContent = htmlContent.replace(/(Stream Online<\/h3>[\s\S]*?<\/button>)/, '<div class="stream-section">$1</div>');
-                htmlContent = htmlContent.replace(/(View PDF<\/h3>[\s\S]*?<\/button>)/, '<div class="pdf-section">$1</div>');
+                // Replace placeholders with button HTML structure
+                htmlContent = htmlContent.replace(/<!--Download Section-->/, `
+                    <div class="section">
+                        <h3>Download Content</h3>
+                        <button class="button">Download</button>
+                    </div>
+                `);
+                
+                htmlContent = htmlContent.replace(/<!--Stream Section-->/, `
+                    <div class="section">
+                        <h3>Stream Online</h3>
+                        <button class="button">Stream Now</button>
+                    </div>
+                `);
+
+                htmlContent = htmlContent.replace(/<!--PDF Section-->/, `
+                    <div class="section">
+                        <h3>View PDF</h3>
+                        <button class="button">View PDF</button>
+                    </div>
+                `);
 
                 // Download the modified HTML
                 downloadModifiedFile(htmlContent, file.name);
